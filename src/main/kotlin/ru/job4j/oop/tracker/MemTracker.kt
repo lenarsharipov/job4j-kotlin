@@ -1,10 +1,9 @@
 package ru.job4j.oop.tracker
 
-class MemTracker: Store {
-
-    private var items = ArrayList<Item>()
-
+data class MemTracker(
+    private val items: ArrayList<Item> = ArrayList(),
     private var ids: Long = 1
+): Store {
 
     override fun add(item: Item): Item {
         item.id = ids++
