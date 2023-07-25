@@ -1,40 +1,11 @@
 package ru.job4j.oop
 
-import ru.job4j.oop.tracker.Item
+import ru.job4j.oop.tracker.Actions
 import ru.job4j.oop.tracker.MemTracker
 import ru.job4j.oop.tracker.Store
-import java.util.Scanner
+import java.util.*
 
 object StartUi {
-
-    private fun create(tracker: Store): Boolean {
-        println("=== Create new Item ===")
-        val scanner = Scanner(System.`in`)
-        println("Enter name: ")
-        val name = scanner.nextLine()
-
-        val item = Item(0, name)
-        tracker.add(item)
-
-        return true
-    }
-
-    private fun showAll(tracker: Store): Boolean {
-        println("=== Show all items ===")
-        val items = tracker.findAll()
-        if (items.isNotEmpty()) {
-            for (item in items) {
-                println(item)
-            }
-        } else {
-            println("No any item saved yet.")
-        }
-        return true
-    }
-
-    private fun exit(): Boolean {
-        return false
-    }
 
     private fun showMenu() {
         println("Menu:")
@@ -50,18 +21,16 @@ object StartUi {
             val scanner = Scanner(System.`in`)
             print("Select: ")
             run = when (scanner.nextInt()) {
-                0 -> create(tracker)
-                1 -> showAll(tracker)
-                2 -> exit()
+                0 -> Actions.create(tracker)
+                1 -> Actions.showAll(tracker)
+                2 -> Actions.exit()
                 else -> {
                     println("Wrong input. Try again.")
                     continue
                 }
             }
         }
-        println("Program has finished its work.")
     }
-
 }
 
 fun main() {
