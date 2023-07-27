@@ -20,9 +20,7 @@ class Actions private constructor() {
             println("=== Show all items ===")
             val items = tracker.findAll()
             if (items.isNotEmpty()) {
-                for (item in items) {
-                    println(item)
-                }
+                items.forEach { println(it) }
             } else {
                 println("No any item saved yet.")
             }
