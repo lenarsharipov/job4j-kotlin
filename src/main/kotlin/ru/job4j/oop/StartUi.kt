@@ -1,39 +1,41 @@
 package ru.job4j.oop
 
-import ru.job4j.oop.tracker.Actions
 import ru.job4j.oop.tracker.MemTracker
 import ru.job4j.oop.tracker.Store
-import java.util.*
+import ru.job4j.oop.tracker.action.Action
+import ru.job4j.oop.tracker.action.ConsoleInput
+import ru.job4j.oop.tracker.action.Input
+import ru.job4j.oop.tracker.action.impl.AddAction
+import ru.job4j.oop.tracker.action.impl.ExitAction
+import ru.job4j.oop.tracker.action.impl.ShowAction
 
 object StartUi {
 
-    private fun showMenu() {
+    private fun showMenu(actions: List<Action>) {
         println("Menu:")
-        println("0. Create new item.")
-        println("1. Show all items.")
-        println("2. Exit.")
+        for (index in actions.indices) {
+            println("$index. ${actions[index].name()}")
+        }
     }
 
-    fun init(tracker: Store) {
+    fun init(input: Input, tracker: Store, actions: List<Action>) {
         var run = true
         while(run) {
-            showMenu()
-            val scanner = Scanner(System.`in`)
-            print("Select: ")
-            run = when (scanner.nextInt()) {
-                0 -> Actions.create(tracker)
-                1 -> Actions.showAll(tracker)
-                2 -> Actions.exit()
-                else -> {
-                    println("Wrong input. Try again.")
-                    continue
-                }
+            showMenu(actions)
+            val select = input.askInt("Select: ")
+            if (select < 0 || select >= actions.size) {
+                println("Wrong input. Try again.")
+                continue
             }
+            val action = actions[select]
+            run = action.execute(tracker, input)
         }
     }
 }
 
 fun main() {
     val tracker = MemTracker()
-    StartUi.init(tracker)
+    val input = ConsoleInput()
+    val actions = listOf(AddAction(), ShowAction(), ExitAction())
+    StartUi.init(input, tracker, actions)
 }
