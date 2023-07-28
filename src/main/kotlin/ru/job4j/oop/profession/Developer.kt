@@ -6,4 +6,12 @@ class Developer(
     technicalSkills: String,
     var programmingLanguage: String,
     var database: String
-) : ItProfession(title, experience, technicalSkills)
+) : ItProfession(title, experience, technicalSkills) {
+    override fun action() {
+        println("Action from Developer")
+    }
+
+    override fun getName() {
+        println("developer's name")
+    }
+}
